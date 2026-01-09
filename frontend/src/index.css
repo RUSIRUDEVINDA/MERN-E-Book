@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Elms Sans", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-display caret-violet-500 selection:bg-violet-500/30;
+
+    scrollbar-width: thin;
+  }
+}
