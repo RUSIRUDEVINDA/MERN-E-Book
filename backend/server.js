@@ -1,8 +1,14 @@
-require ("dotenv").config()
-const express = require ("express");
-const cors = require("cors")
-const path = require ("path");
-const connectDB = require ("./config/db");
+import 'dotenv/config'; // automatically loads .env
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import cookieParser from 'cookie-parser';
+import { connectDB } from './config/db.js';
+import authRoutes from './routes/authRoutes.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
@@ -10,7 +16,6 @@ const app = express();
 connectDB();
 
 //middleware to handle CORS
-
 app.use(cors({
     origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
@@ -19,12 +24,17 @@ app.use(cors({
 
 //middleware
 app.use(express.json()); // use for converting json data to js objects
+app.use(cookieParser());
+
 
 //static folder for uploads
 app.use('/backend/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// auth route here
+app.use('/api/auth', authRoutes);
+
 //start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>{
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
     console.log(`Server is running on ${PORT}`);
 })
