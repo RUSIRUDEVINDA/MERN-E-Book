@@ -30,3 +30,33 @@ export const FEATURES = [
     gradient: "from-pink-500 to-rose-600",
   },
 ];
+
+export const TESTIMONIALS = [
+  {
+    rating: 5,
+    quote:
+      "This platform transformed how I write. The AI-powered suggestions cut my writing time in half!",
+    avatar:
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop",
+    author: "Sarah Johnson",
+    title: "Fiction Author",
+  },
+  {
+    rating: 5,
+    quote:
+      "Finally, a tool that makes publishing an ebook simple and accessible. Highly recommended!",
+    avatar:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop",
+    author: "Michael Chen",
+    title: "Self-Published Author",
+  },
+  {
+    rating: 5,
+    quote:
+      "The immersive reader feature is fantastic. My readers love the reading experience.",
+    avatar:
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop",
+    author: "Emma Williams",
+    title: "Business Author",
+  },
+];
