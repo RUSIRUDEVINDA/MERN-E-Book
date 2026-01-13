@@ -1,4 +1,4 @@
-import 'dotenv/config'; // automatically loads .env
+import 'dotenv/config'; // loads .env
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import { connectDB } from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import bookRoutes from './routes/bookRoutes.js';
+import aiRoutes from './routes/aiRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -33,7 +34,10 @@ app.use('/backend/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // auth route here
 app.use('/api/auth', authRoutes);
+// book routes here
 app.use('/api/books', bookRoutes);
+// AI routes here
+app.use('/api/ai', aiRoutes);
 
 //start server
 const PORT = process.env.PORT || 8000;
