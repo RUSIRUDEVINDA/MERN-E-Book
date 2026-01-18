@@ -8,6 +8,7 @@ import { connectDB } from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import bookRoutes from './routes/bookRoutes.js';
 import aiRoutes from './routes/aiRoutes.js';
+import exportRoutes from './routes/exportRoures.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -28,7 +29,6 @@ app.use(cors({
 app.use(express.json()); // use for converting json data to js objects
 app.use(cookieParser());
 
-
 //static folder for uploads
 app.use('/backend/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -38,6 +38,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
 // AI routes here
 app.use('/api/ai', aiRoutes);
+// export routes here
+app.use('/api/export', exportRoutes);
 
 //start server
 const PORT = process.env.PORT || 8000;
