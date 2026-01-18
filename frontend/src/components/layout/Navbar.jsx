@@ -1,35 +1,34 @@
-import React, { useState, useEffect } from 'react'
-import { useAuth } from '../../context/authContext'
-import ProfileDropdown from './ProfileDropdown'
-import { Menu, X, BookOpen, LogOut } from 'lucide-react'
+import React, { useState, useEffect } from "react";
+import { useAuth } from "../../context/authContext";
+import ProfileDropdown from "./ProfileDropdown";
+import { Menu, X, BookOpen, LogOut } from "lucide-react";
 
 const Navbar = () => {
-  const { user, logout, isAuthenticated } = useAuth()
+  const { user, logout, isAuthenticated } = useAuth();
 
-  const [isOpen, setIsOpen] = useState(false)
-  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
 
   const navLinks = [
     { name: "Features", href: "#features" },
     { name: "Testimonials", href: "#testimonials" },
-  ]
+  ];
 
   useEffect(() => {
     const handleOutsideClick = () => {
       if (profileDropdownOpen) {
-        setProfileDropdownOpen(false)
+        setProfileDropdownOpen(false);
       }
-    }
+    };
 
-    document.addEventListener('click', handleOutsideClick)
-    return () => document.removeEventListener('click', handleOutsideClick)
-  }, [profileDropdownOpen])
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, [profileDropdownOpen]);
 
   return (
     <header className="w-full">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-
           {/* Logo */}
           <a href="/" className="flex items-center space-x-2.5 group">
             <div className="w-9 h-9 bg-gradient-to-br from-violet-400 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
@@ -59,8 +58,8 @@ const Navbar = () => {
               <ProfileDropdown
                 isOpen={profileDropdownOpen}
                 onToggle={(e) => {
-                  e.stopPropagation()
-                  setProfileDropdownOpen(!profileDropdownOpen)
+                  e.stopPropagation();
+                  setProfileDropdownOpen(!profileDropdownOpen);
                 }}
                 avatar={user?.avatar || ""}
                 companyName={user?.name || ""}
@@ -135,7 +134,7 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="space-y-2">
-                <a 
+                <a
                   href="/login"
                   className="block px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
                 >
@@ -153,8 +152,7 @@ const Navbar = () => {
         </div>
       )}
     </header>
+  );
+};
 
-  )
-}
-
-export default Navbar
+export default Navbar;
