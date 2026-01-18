@@ -10,6 +10,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useAuth } from "../context/authContext";
+import { GoogleLogin } from "@react-oauth/google";
+
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -61,6 +63,43 @@ const LoginPage = () => {
       setIsLoading(false);
     }
   };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+  try {
+    setError("");
+    setIsLoading(true);
+
+    const response = await fetch(
+      "http://localhost:8000/api/auth/google",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          credential: credentialResponse.credential,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Google login failed");
+    }
+
+    login(data.user, data.token);
+    navigate("/dashboard");
+  } catch (err) {
+    setError(err.message || "Google sign-in failed");
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+const handleGoogleError = () => {
+  setError("Google sign-in was cancelled or failed");
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 via-white to-purple-50 flex flex-col justify-center relative overflow-hidden">
@@ -288,6 +327,8 @@ const LoginPage = () => {
               <span>Google</span>
             </button>
             <button
+              onSuccess={handleGoogleSuccess}
+              onError={handleGoogleError}
               type="button"
               className="flex items-center justify-center gap-3 px-4 py-3 bg-[#1877F2] border border-[#1877F2] rounded-xl text-white font-medium hover:bg-[#166FE5] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1877F2] transition-all duration-200"
             >
