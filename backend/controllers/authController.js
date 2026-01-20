@@ -149,6 +149,8 @@ const updateProfile = async (req, res) => {
         id: updatedUser._id,
         name: updatedUser.name,
         email: updatedUser.email,
+        createdAt: updatedUser.createdAt,
+        updatedAt: updatedUser.updatedAt,
       }
     });
 
