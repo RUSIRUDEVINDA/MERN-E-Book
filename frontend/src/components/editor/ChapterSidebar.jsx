@@ -88,6 +88,10 @@ const ChapterSidebar = ({
 }) => {
   const navigate = useNavigate();
 
+  if (!book || !book.chapters) {
+    return <div className="w-64 bg-slate-50 border-r border-slate-200">Loading...</div>;
+  }
+
   const chapterIds = book.chapters.map(
     (chapter, index) => chapter._id || `new-${index}`,
   );

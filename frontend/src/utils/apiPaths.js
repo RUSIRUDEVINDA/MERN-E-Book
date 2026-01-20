@@ -15,9 +15,14 @@ export const API_PATHS = {
     CREATE: `${API_BASE_URL}/books`,
     UPDATE: `${API_BASE_URL}/books/:id`,
     DELETE: `${API_BASE_URL}/books/:id`,
+    UPLOAD_COVER: `${API_BASE_URL}/books/cover/:id`,
   },
   AI: {
     GENERATE_OUTLINE: `${API_BASE_URL}/ai/generate-book-outline`,
     GENERATE_CONTENT: `${API_BASE_URL}/ai/generate-book-content`,
+  },
+  EXPORT: {
+    EXPORT_PDF: `${API_BASE_URL}/export/pdf/:id`,
+    EXPORT_DOCX: `${API_BASE_URL}/export/docx/:id`,
   },
 };

@@ -4,7 +4,7 @@ import { protect } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/:id/pdf', protect, exportAsPdf);
-router.get('/:id/docx', protect, exportAsDocx);
+router.get('/pdf/:id', protect, exportAsPdf);
+router.get('/docx/:id', protect, exportAsDocx);
 
 export default router;
