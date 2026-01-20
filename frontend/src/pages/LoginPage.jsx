@@ -37,7 +37,7 @@ const LoginPage = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8000/api/auth/login", {
+      const response = await fetch("https://mern-e-book-backend.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +66,7 @@ const LoginPage = () => {
       setError("");
       setIsLoading(true);
 
-      const response = await fetch("http://localhost:8000/api/auth/google", {
+      const response = await fetch("https://mern-e-book-backend.onrender.com/api/auth/google", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
