@@ -1,46 +1,67 @@
 import multer from 'multer'
-import path from 'path'
-import fs from 'fs'
+import { CloudinaryStorage } from 'multer-storage-cloudinary'
+import cloudinary from 'cloudinary'
 
-//create uplaod directory if not exists
-const uploadDir = "uploads"
-if(!fs.existsSync(uploadDir)){
-    fs.mkdirSync(uploadDir, {recursive:true})
-}
+// Configure Cloudinary
+cloudinary.v2.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+})
 
-//set up storage engine
-const storage = multer.diskStorage({
-    destination: function(req,file,cb){
-        cb(null, uploadDir)
-    },
-    filename:function(req,file,cb){
-        cb(
-            null,
-            `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-        );
+console.log('Cloudinary configured with:', {
+    cloud_name: process.env.CLOUDINARY_NAME,
+    has_api_key: !!process.env.CLOUDINARY_API_KEY,
+    has_api_secret: !!process.env.CLOUDINARY_API_SECRET
+})
+
+// Set up Cloudinary storage
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary.v2,
+    params: async (req, file) => {
+        console.log('CloudinaryStorage params called with file:', file?.originalname)
+        return {
+            folder: 'ai-ebook-creator/book-covers',
+            resource_type: 'auto',
+            allowed_formats: ['jpeg', 'jpg', 'png', 'gif'],
+            public_id: `cover-${Date.now()}-${Math.round(Math.random() * 1E9)}`
+        }
     }
 })
 
-//check file type
-function checkFileType(file, cb){
-    const filetypes = /jpeg|jpg|png|gif/;
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = filetypes.test(file.mimetype);
+// Check file type
+function checkFileType(file, cb) {
+    const filetypes = /jpeg|jpg|png|gif/
+    const extname = filetypes.test(file.mimetype)
 
-    if(mimetype && extname){
-        return cb(null, true);
+    if (extname) {
+        return cb(null, true)
     } else {
-        cb("Error: Images Only!");
+        cb("Error: Images Only!")
     }
 }
 
-//initialize upload
+// Initialize upload with Cloudinary
 const upload = multer({
-    storage:storage,
-    limits: {fileSize: 5 * 1024 * 1024}, //5MB limit
-    fileFilter: function(req, file, cb){
-        checkFileType(file, cb);
+    storage: storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+    fileFilter: function (req, file, cb) {
+        console.log('File filter called for:', file.originalname)
+        checkFileType(file, cb)
     }
-}).single('coverImage') // expecting field name 'coverImage'
+}).single('coverImage')
 
-export {upload}
+// Error handling wrapper
+const uploadWrapper = (req, res, next) => {
+    console.log('Upload middleware called')
+    upload(req, res, (err) => {
+        if (err) {
+            console.error('Multer error:', err)
+            return res.status(400).json({ message: err.message || 'Upload failed' })
+        }
+        console.log('File received:', req.file ? 'Yes' : 'No')
+        next()
+    })
+}
+
+export { uploadWrapper as upload }
