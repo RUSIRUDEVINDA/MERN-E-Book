@@ -1,255 +1,199 @@
-# MERN-E-Book
+# 📚 MERN E-Book Creator
 
-A Full-Stack AI-Powered eBook Creator built with the MERN stack (MongoDB, Express, React, Node.js) and styled using Tailwind CSS. This app enables users to plan, write, and export entire ebooks seamlessly with the assistance of Google Gemini AI - all within a single platform.
+> **The ultimate AI-powered platform for authoring, editing, and publishing eBooks.**  
+> *Plan, write, and export your next bestseller with the power of modern AI.*
 
-## Features
+![Project Status](https://img.shields.io/badge/Status-Active-success?style=flat-square)
+![License](https://img.shields.io/badge/License-ISC-blue?style=flat-square)
+![Tech Stack](https://img.shields.io/badge/Stack-MERN-yellow?style=flat-square)
 
-- User authentication and profile management
-- Create, edit, and manage ebooks with chapters
-- AI-assisted content generation using Google Gemini
-- Upload cover images for ebooks
-- Export ebooks in various formats (e.g., PDF, DOCX)
-- Responsive UI with Tailwind CSS
+---
 
-## Installation
+## 📖 Table of Contents
 
-1. Clone the repository:
+- [About The Project](#-about-the-project)
+- [Key Features](#-key-features)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Environment Variables](#environment-variables)
+- [Usage Guide](#-usage-guide)
+- [API Reference](#-api-reference)
+- [Contact](#-contact)
 
+---
+
+## 🚀 About The Project
+
+**MERN E-Book Creator** is a full-stack web application designed to streamline the book-writing process. By integrating advanced AI models from **Mistral AI** and **Hugging Face**, it helps authors overcome writer's block, generate creative outlines, and draft content effortlessly.
+
+Built with performance and user experience in mind, the platform offers a sleek interface for managing book projects, editing chapters, and exporting final manuscripts in professional formats explicitly suitable for publishing.
+
+---
+
+## ✨ Key Features
+
+- **🤖 AI-Powered Writing Assistant**  
+  Generate detailed book outlines and full chapter content using **Mistral AI**.
+- **🧠 Smart Content Analysis**  
+  Utilize **Hugging Face** to summarize text, extract keywords, and classify content styles.
+- **📝 Rich Text Editor**  
+  A distraction-free, markdown-supported editor for writing and refining your chapters.
+- **📄 Multi-Format Export**  
+  Download your complete eBook as a **PDF** or **Word Document (DOCX)** with a single click.
+- **🖼️ Cover Management**  
+  Upload and manage custom cover art for your books.
+- **🔐 Secure Authentication**  
+  User registration and login system protected with JWT.
+
+---
+
+## 🛠 Tech Stack
+
+### Frontend
+- ![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB) **React.js** - Component-based UI library.
+- ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white) **Vite** - Next-generation frontend tooling.
+- ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white) **Tailwind CSS** - Utility-first CSS framework.
+
+### Backend
+- ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=flat-square&logo=node.js&logoColor=white) **Node.js** - JavaScript runtime.
+- ![Express.js](https://img.shields.io/badge/Express.js-404D59?style=flat-square) **Express.js** - Web framework for Node.js.
+- ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=flat-square&logo=mongodb&logoColor=white) **MongoDB** - NoSQL database.
+
+### AI & Libraries
+- **Hugging Face Inference API** (Summarization, Keywords)
+- **Mistral AI** (Content Generation)
+- **PDFKit** & **Docx** (File Export)
+- **Multer** (File Uploads)
+
+---
+
+## 🏁 Getting Started
+
+Follow these steps to set up the project locally.
+
+### Prerequisites
+
+- **Node.js** (v16 or higher)
+- **MongoDB** (Local or Atlas connection string)
+- **Hugging Face API Key** (for AI features)
+
+### Installation
+
+1. **Clone the repository**
    ```bash
    git clone https://github.com/your-username/MERN-E-Book.git
    cd MERN-E-Book
    ```
 
-2. Install dependencies for both frontend and backend:
-
+2. **Install Backend Dependencies**
    ```bash
-   # Backend
    cd backend
    npm install
+   ```
 
-   # Frontend
+3. **Install Frontend Dependencies**
+   ```bash
    cd ../frontend
    npm install
    ```
 
-3. Set up environment variables:
-   - Create a `.env` file in the `backend` directory with the following:
-     ```
-     MONGO_URI=your_mongodb_connection_string
-     JWT_SECRET=your_jwt_secret
-     JWT_EXPIRES_IN=7d
-     PORT=8000
-     NODE_ENV=development
-     GOOGLE_GENAI_API_KEY=your_google_genai_api_key
-     ```
+### Environment Variables
 
-4. Start the development servers:
+Create a `.env` file in the `backend` directory and add the following configuration:
 
+```env
+# Server Configuration
+PORT=8000
+NODE_ENV=development
+
+# Database
+MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/ebook-db
+
+# Security
+JWT_SECRET=your_super_secret_jwt_key
+JWT_EXPIRES_IN=7d
+
+# AI Configuration (Mistral & Hugging Face)
+# Note: The codebase currently uses this key for both Mistral and HF services
+HUGGINGFACE_API_KEY=your_hugging_face_or_mistral_api_key
+```
+
+### Running the App
+
+1. **Start the Backend**
    ```bash
-   # Backend (from backend directory)
-   npm run dev
-
-   # Frontend (from frontend directory, in a new terminal)
+   # In the backend directory
    npm run dev
    ```
 
-5. Open your browser to `http://localhost:5173` (or the port specified by Vite).
+2. **Start the Frontend**
+   ```bash
+   # In the frontend directory
+   npm run dev
+   ```
 
-## Usage
-
-- Register or log in to access the dashboard.
-- Create a new ebook by providing a title and author.
-- Add chapters and use AI to generate content.
-- Upload a cover image and export your ebook.
-
-## API Endpoints
-
-- **Auth**: `/api/auth` (register, login, profile management)
-- **Books**: `/api/books` (CRUD operations for ebooks)
-
-## Technologies Used
-
-- **Frontend**: React, Vite, Tailwind CSS, React Router
-- **Backend**: Node.js, Express, MongoDB, Mongoose
-- **AI**: Google Gemini API
-- **Other**: Multer for file uploads, JWT for authentication
+3. **Open Access**
+   Visit `http://localhost:5173` in your browser.
 
 ---
 
-# MERN E-BOOK SYSTEM DESIGN & API GUIDE
+## 📡 API Reference
 
-## SYSTEM DESIGN OVERVIEW
+The backend exposes the following RESTful endpoints.
 
-This application is a full-stack web application built using the MERN stack:
+### 🔐 Authentication
 
-- **M**ongoDB: NoSQL database for flexible data storage.
-- **E**xpress.js: Web application framework for Node.js.
-- **R**eact: Frontend JavaScript library for building user interfaces.
-- **N**ode.js: JavaScript runtime environment.
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Register a new user |
+| `POST` | `/api/auth/login` | Login and receive JWT |
+| `GET` | `/api/auth/profile` | Get current user profile |
 
-### Architecture: Model-View-Controller (MVC)
+### 📚 Books & Content
 
-1. **Models (Database Layer):** defined using Mongoose schemas (e.g., `User.js`, `Book.js`). They define the structure of the data.
-2. **Controllers (Logic Layer):** Handle the business logic. They receive requests, process data (talking to Models), and send responses (e.g., `bookController.js`, `authController.js`).
-3. **Routes (API Layer):** Map HTTP endpoints (URLs) to specific controller functions (e.g., `bookRoutes.js`).
-4. **Middleware:** Intercepts requests for tasks like authentication (`authMiddleware.js`) and file uploads (`uploadMiddleware.js`).
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/books` | Get all user's books |
+| `POST` | `/api/books` | Create a new book |
+| `GET` | `/api/books/:id` | Get book details |
+| `PUT` | `/api/books/:id` | Update book content |
+| `DELETE` | `/api/books/:id` | Delete a book |
+| `PUT` | `/api/books/cover/:id` | Upload book cover |
 
-### Key Features:
+### 🧠 AI Features
 
-- **Authentication:** JWT (JSON Web Tokens) based auth. Users log in and receive a token. This token must be sent in the header of subsequent requests to prove identity.
-- **AI Integration:** Uses Google's Gemini AI (`@google/genai`) to generate book outlines and chapter content.
-- **File Export:** Generates downloadable .pdf (using `pdfkit`) and .docx (using `docx`) files on the fly.
-- **File Upload:** Handles image uploads for book covers using `multer`.
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/ai/book-outline` | Generate book outline (Mistral) |
+| `POST` | `/api/ai/book-content` | Generate chapter content (Mistral) |
+| `POST` | `/api/ai/summarize` | Summarize text (Hugging Face) |
+| `POST` | `/api/ai/keywords` | Extract keywords (Hugging Face) |
+
+### 📤 Export
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/export/:id/pdf` | Download Book as PDF |
+| `GET` | `/api/export/:id/docx` | Download Book as DOCX |
 
 ---
 
-## API ENDPOINT GUIDE
+## 🤝 Contribution
 
-_NOTE: For all endpoints requiring authentication, you must include the token in the headers._
+Contributions are welcome! Please feel free to check the [issues page](#) or submit a pull request.
 
-### AUTHENTICATION (Folder: auth)
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-1. **POST Register**
-   - **URL:** `http://localhost:8000/api/auth/register`
-   - **Method:** POST
-   - **Description:** Creates a new user account.
-   - **Body (JSON):**
-     ```json
-     {
-       "name": "John Doe",
-       "email": "john@example.com",
-       "password": "securepassword123"
-     }
-     ```
+---
 
-2. **POST Login**
-   - **URL:** `http://localhost:8000/api/auth/login`
-   - **Method:** POST
-   - **Description:** Authenticates a user and returns a token.
-   - **Body (JSON):**
-     ```json
-     {
-       "email": "john@example.com",
-       "password": "securepassword123"
-     }
-     ```
-   - **Response:** Copies the `token` string from the response. You will need this for all other requests.
+## 📄 License
 
-3. **GET Get All Profiles**
-   - **URL:** `http://localhost:8000/api/auth/profiles`
-   - **Method:** GET
-   - **Headers:** `Authorization: Bearer <your_token_here>`
-   - **Description:** Lists all users in the system (Public info).
+Distributed under the **ISC License**.
 
-4. **GET Get Profile**
-   - **URL:** `http://localhost:8000/api/auth/profile/:id`
-   - **Method:** GET
-   - **Headers:** `Authorization: Bearer <your_token_here>`
-   - **Description:** Get details of a specific user. Replace `:id` with the User ID (e.g., from the login response).
-   - **Note:** The endpoint logic actually uses `req.user.id` from the token, effectively ignoring the `:id` param in the URL for security in some implementations, but follows the route structure.
-
-5. **PUT Update Profile**
-   - **URL:** `http://localhost:8000/api/auth/profile/:id`
-   - **Method:** PUT
-   - **Headers:** `Authorization: Bearer <your_token_here>`
-   - **Body (JSON):**
-     ```json
-     {
-       "name": "John Updated",
-       "password": "newpassword123" // Optional
-     }
-     ```
-
-### AI GENERATION (Folder: Ai)
-
-6. **POST Generate Book Outline**
-   - **URL:** `http://localhost:8000/api/ai/generate-book-outline`
-   - **Method:** POST
-   - **Headers:** `Authorization: Bearer <your_token_here>`
-   - **Body (JSON):**
-     ```json
-     {
-       "topic": "Space Exploration",
-       "style": "Sci-Fi",
-       "numChapters": 5,
-       "description": "A journey to Mars in 2050"
-     }
-     ```
-
-7. **POST Generate Chapter Content**
-   - **URL:** `http://localhost:8000/api/ai/generate-book-content`
-   - **Method:** POST
-   - **Headers:** `Authorization: Bearer <your_token_here>`
-   - **Body (JSON):**
-     ```json
-     {
-       "chapterTitle": "The Blast Off",
-       "chapterDescription": "The crew prepares for launch.",
-       "style": "Dramatic"
-     }
-     ```
-
-8. **GET Export Ebook as Pdf**
-   - **URL:** `http://localhost:8000/api/export/:id/pdf`
-   - **Method:** GET
-   - **Headers:** `Authorization: Bearer <your_token_here>`
-   - **Description:** Downloads the book as a PDF file. Replace `:id` with your **Book ID**.
-
-9. **GET Export Ebook as Docx**
-   - **URL:** `http://localhost:8000/api/export/:id/docx`
-   - **Method:** GET
-   - **Headers:** `Authorization: Bearer <your_token_here>`
-   - **Description:** Downloads the book as a Word document. Replace `:id` with your **Book ID**.
-
-### EBOOK MANAGEMENT (Folder: ebook)
-
-10. **POST Create New Book**
-    - **URL:** `http://localhost:8000/api/books`
-    - **Method:** POST
-    - **Headers:** `Authorization: Bearer <your_token_here>`
-    - **Body (JSON):**
-      ```json
-      {
-        "title": "My New Book",
-        "author": "John Doe",
-        "subtitle": "A Guide to React",
-        "chapters": [] // Optional initial chapters
-      }
-      ```
-
-11. **GET Get Books**
-    - **URL:** `http://localhost:8000/api/books`
-    - **Method:** GET
-    - **Headers:** `Authorization: Bearer <your_token_here>`
-    - **Description:** Fetches all books created by the logged-in user.
-
-12. **GET Get A Book**
-    - **URL:** `http://localhost:8000/api/books/:id`
-    - **Method:** GET
-    - **Headers:** `Authorization: Bearer <your_token_here>`
-    - **Description:** Get details of a single book. Replace `:id` with the **Book ID**.
-
-13. **PUT Update Book**
-    - **URL:** `http://localhost:8000/api/books/:id`
-    - **Method:** PUT
-    - **Headers:** `Authorization: Bearer <your_token_here>`
-    - **Body (JSON):**
-      ```json
-      {
-        "title": "Updated Title",
-        "chapters": [{ "title": "Chapter 1", "content": "Updated content..." }]
-      }
-      ```
-
-14. **DELETE Delete A Book**
-    - **URL:** `http://localhost:8000/api/books/:id`
-    - **Method:** DELETE
-    - **Headers:** `Authorization: Bearer <your_token_here>`
-    - **Description:** Permanently deletes the book.
-
-15. **PUT Update Book Cover**
-    - **URL:** `http://localhost:8000/api/books/cover/:id`
-    - **Method:** PUT
-    - **Headers:** `Authorization: Bearer <your_token_here>`
-    - **Body:** **form-data** (Not JSON!)
-      - Key: `image` (Type: File) -> Select an image file from your computer.
+---
