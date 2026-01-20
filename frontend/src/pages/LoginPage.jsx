@@ -1,14 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Mail,
-  Lock,
-  BookOpen,
-  Eye,
-  EyeOff,
-} from "lucide-react";
+import { Mail, Lock, BookOpen, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../context/authContext";
 import { GoogleLogin } from "@react-oauth/google";
+import axiosInstance from "../utils/axiosInstance";
+import { API_PATHS } from "../utils/apiPaths";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -37,25 +33,15 @@ const LoginPage = () => {
     setError("");
 
     try {
-      const response = await fetch("https://mern-e-book-backend.onrender.com/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Login failed");
-      }
+      const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN, formData);
 
       // Use the login function from AuthContext
-      login(data.user, data.token);
+      login(response.data.user, response.data.token);
       navigate("/dashboard");
     } catch (err) {
-      setError(err.message || "Something went wrong. Please try again.");
+      setError(
+        err.response?.data?.error || "Something went wrong. Please try again.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -66,26 +52,17 @@ const LoginPage = () => {
       setError("");
       setIsLoading(true);
 
-      const response = await fetch("https://mern-e-book-backend.onrender.com/api/auth/google", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await axiosInstance.post(
+        `${API_PATHS.AUTH.LOGIN.replace("/login", "/google")}`,
+        {
           credential: credentialResponse.credential,
-        }),
-      });
+        },
+      );
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Google login failed");
-      }
-
-      login(data.user, data.token);
+      login(response.data.user, response.data.token);
       navigate("/dashboard");
     } catch (err) {
-      setError(err.message || "Google sign-in failed");
+      setError(err.response?.data?.error || "Google sign-in failed");
     } finally {
       setIsLoading(false);
     }
