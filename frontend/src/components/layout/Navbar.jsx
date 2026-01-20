@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext";
 import ProfileDropdown from "./ProfileDropdown";
 import { Menu, X, BookOpen, LogOut } from "lucide-react";
@@ -30,14 +31,14 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <a href="/" className="flex items-center space-x-2.5 group">
+          <Link to="/" className="flex items-center space-x-2.5 group">
             <div className="w-9 h-9 bg-gradient-to-br from-violet-400 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
               <BookOpen className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-semibold text-gray-900">
               AI eBook Creator
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center space-x-1">
@@ -69,18 +70,18 @@ const Navbar = () => {
               />
             ) : (
               <>
-                <a
-                  href="/login"
+                <Link
+                  to="/login"
                   className="px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
                 >
                   Login
-                </a>
-                <a
-                  href="/signup"
+                </Link>
+                <Link
+                  to="/signup"
                   className="px-5 py-2 text-sm font-medium text-white bg-gradient-to-r from-violet-500 to-purple-600 rounded-lg shadow hover:scale-105 transition"
                 >
                   Get Started
-                </a>
+                </Link>
               </>
             )}
           </div>
@@ -134,18 +135,18 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="space-y-2">
-                <a
-                  href="/login"
+                <Link
+                  to="/login"
                   className="block px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg"
                 >
                   Login
-                </a>
-                <a
-                  href="/signup"
+                </Link>
+                <Link
+                  to="/signup"
                   className="block px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-violet-500 to-purple-600 rounded-lg shadow hover:scale-105 transition"
                 >
                   Get Started
-                </a>
+                </Link>
               </div>
             )}
           </div>
