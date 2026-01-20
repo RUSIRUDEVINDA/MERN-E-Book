@@ -1,4 +1,15 @@
 import PDFDocument from "pdfkit";
+import MarkdownIt from "markdown-it";
+
+const md = new MarkdownIt();
+
+// Convert markdown to plain text by stripping HTML tags
+const markdownToPlainText = (markdown) => {
+    if (!markdown) return "";
+    const html = md.render(markdown);
+    // Strip HTML tags
+    return html.replace(/<[^>]*>/g, "").trim();
+};
 
 export const generatePdf = async (book, res) => {
     return new Promise((resolve, reject) => {
@@ -38,7 +49,10 @@ export const generatePdf = async (book, res) => {
                     doc.fontSize(20).text(chapter.title, { align: "left" });
                     doc.moveDown(0.5);
 
-                    doc.fontSize(12).font("Helvetica").text(chapter.content || "", {
+                    // Convert markdown to plain text
+                    const plainText = markdownToPlainText(chapter.content || "");
+
+                    doc.fontSize(12).font("Helvetica").text(plainText, {
                         align: "justify",
                         paragraphGap: 5,
                     });

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { BookOpen, Twitter, Linkedin, Github } from "lucide-react";
 
 const Footer = () => {
@@ -12,14 +13,14 @@ const Footer = () => {
         <div className="py-16 grid grid-cols-1 md:grid-cols-12 gap-12">
           {/*Brand Section*/}
           <div className="md:col-span-5 space-y-6">
-            <a href="/" className="flex items-center space-x-2.5 group">
+            <Link to="/" className="flex items-center space-x-2.5 group">
               <div className="w-10 h-10 bg-gradient-to-br from-violet-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-violet-500/30 group-hover:shadow-violet-500/50 transition-all duration-300 group-hover:scale-105">
                 <BookOpen className="w-5 h-5 text-white" />
               </div>
               <span className="text-xl font-semibold tracking-tight">
                 eBook Creator
               </span>
-            </a>
+            </Link>
             <p className="text-gray-400 leading-relaxed max-w-sm">
               Create, design and publish stunning eBooks with the power of AI.
             </p>
@@ -55,82 +56,26 @@ const Footer = () => {
             <div>
               <h3 className="text-sm font-semibold text-white mb-4">Product</h3>
               <ul className="space-y-3">
-                <li>
-                  <a
-                    href="/features"
-                    className="text-gray-400 hover:text-violet-400 transition-colors duration-200 text-sm"
-                  >
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/pricing"
-                    className="text-gray-400 hover:text-violet-400 transition-colors duration-200 text-sm"
-                  >
-                    Pricing
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/templates"
-                    className="text-gray-400 hover:text-violet-400 transition-colors duration-200 text-sm"
-                  >
-                    Templates
-                  </a>
-                </li>
+                <li className="text-gray-400 text-sm">Features</li>
+                <li className="text-gray-400 text-sm">Pricing</li>
+                <li className="text-gray-400 text-sm">Templates</li>
               </ul>
             </div>
 
             <div>
               <h3 className="text-sm font-semibold text-white mb-4">Company</h3>
               <ul className="space-y-3">
-                <li>
-                  <a
-                    href="/about"
-                    className="text-gray-400 hover:text-violet-400 transition-colors duration-200 text-sm"
-                  >
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/contact"
-                    className="text-gray-400 hover:text-violet-400 transition-colors duration-200 text-sm"
-                  >
-                    Contact
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/blog"
-                    className="text-gray-400 hover:text-violet-400 transition-colors duration-200 text-sm"
-                  >
-                    Blog
-                  </a>
-                </li>
+                <li className="text-gray-400 text-sm">About</li>
+                <li className="text-gray-400 text-sm">Contact</li>
+                <li className="text-gray-400 text-sm">Blog</li>
               </ul>
             </div>
 
             <div>
               <h3 className="text-sm font-semibold text-white mb-4">Legal</h3>
               <ul className="space-y-3">
-                <li>
-                  <a
-                    href="/terms"
-                    className="text-gray-400 hover:text-violet-400 transition-colors duration-200 text-sm"
-                  >
-                    Terms of Service
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/privacy"
-                    className="text-gray-400 hover:text-violet-400 transition-colors duration-200 text-sm"
-                  >
-                    Privacy Policy
-                  </a>
-                </li>
+                <li className="text-gray-400 text-sm">Terms of Service</li>
+                <li className="text-gray-400 text-sm">Privacy Policy</li>
               </ul>
             </div>
           </div>

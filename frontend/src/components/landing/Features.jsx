@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FEATURES } from "../../utils/data";
 
 const Features = () => {
@@ -78,8 +79,8 @@ const Features = () => {
 
         <div className="text-center mt-16">
           <p className="text-gray-600 mb-6">Ready to get started?</p>
-          <a
-            href="/signup"
+          <Link
+            to="/signup"
             className="inline-flex items-center space-x-2 bg-violet-600 hover:bg-violet-700 text-white font-semibold px-8 py-4 rounded-xl shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50 hover:scale-105 transition-all duration-200"
           >
             <span>Start Creating Today</span>
@@ -96,7 +97,7 @@ const Features = () => {
                 d="M17 8l4 4m0 0l-4 4m4-4H3"
               />
             </svg>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

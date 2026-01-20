@@ -197,7 +197,7 @@ const LoginPage = () => {
           </div>
 
           {/* Google Login */}
-          <div className="w-full">
+          <div className="w-full flex justify-center">
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
               onError={handleGoogleError}
@@ -205,7 +205,6 @@ const LoginPage = () => {
               theme="outline"
               size="large"
               text="signin_with"
-              width="100%"
               locale="en"
             />
           </div>
