@@ -15,11 +15,11 @@ const BookCard = ({ book, onDelete }) => {
     >
       <div className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
         <img
-          src={coverImageUrl}
+          src={coverImageUrl || undefined}
           alt={book.title}
           className="w-full aspect-[16/25] object-cover transition-transform duration-500 group-hover:scale-105"
           onError={(e) => {
-            e.target.src = "";
+            e.target.src = null;
           }}
         />
         <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2">

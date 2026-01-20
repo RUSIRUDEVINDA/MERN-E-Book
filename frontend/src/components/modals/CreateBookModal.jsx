@@ -51,7 +51,7 @@ const CreateBookModal = ({ isOpen, onClose, onBookCreated }) => {
     }
     setIsGeneratingOutline(true);
     try {
-      const response = await axiosInstance.post(API_PATHS.AI.GENERATE, {
+      const response = await axiosInstance.post(API_PATHS.AI.GENERATE_OUTLINE, {
         topic: bookTitle,
         description: aiTopic || "No specific description provided",
         style: aiStyle,
@@ -107,9 +107,9 @@ const CreateBookModal = ({ isOpen, onClose, onBookCreated }) => {
         chapters: chapters,
       });
       toast.success("Book created successfully!");
-      onBookCreated(response.data.book._id);
-      onClose();
       resetModal();
+      onClose();
+      onBookCreated(response.data._id);
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
