@@ -1,4 +1,15 @@
 import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } from "docx";
+import MarkdownIt from "markdown-it";
+
+const md = new MarkdownIt();
+
+// Convert markdown to plain text by stripping HTML tags
+const markdownToPlainText = (markdown) => {
+    if (!markdown) return "";
+    const html = md.render(markdown);
+    // Strip HTML tags
+    return html.replace(/<[^>]*>/g, "").trim();
+};
 
 export const generateDocx = async (book) => {
     const children = [];
@@ -45,11 +56,9 @@ export const generateDocx = async (book) => {
                 })
             );
 
-            // Chapter Content
-            // TODO: If content is HTML/Markdown, we should ideally parse it. 
-            // For now, we assume plain text or raw string.
-            // Splitting by newlines to create separate paragraphs implies better formatting.
-            const paragraphs = (chapter.content || "").split("\n");
+            // Chapter Content - Convert markdown to plain text
+            const plainText = markdownToPlainText(chapter.content || "");
+            const paragraphs = plainText.split("\n");
 
             paragraphs.forEach((para) => {
                 if (para.trim()) {

@@ -205,7 +205,7 @@ const LoginPage = () => {
               theme="outline"
               size="large"
               text="signin_with"
-              locale="en"
+              language="en"
             />
           </div>
 
