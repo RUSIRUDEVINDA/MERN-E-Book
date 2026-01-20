@@ -1,16 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Mail,
-  Lock,
-  BookOpen,
-  ArrowRight,
-  Eye,
-  EyeOff,
-  Sparkles,
-} from "lucide-react";
+import { Mail, Lock, BookOpen, Sparkles } from "lucide-react";
+import toast from "react-hot-toast";
 import { useAuth } from "../context/authContext";
 import { GoogleLogin } from "@react-oauth/google";
+import Button from "../components/ui/Button";
+import InputField from "../components/ui/InputField";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -53,11 +48,13 @@ const LoginPage = () => {
         throw new Error(data.error || "Login failed");
       }
 
-      // Use the login function from AuthContext
       login(data.user, data.token);
+      toast.success("Logged in successfully!");
       navigate("/dashboard");
     } catch (err) {
-      setError(err.message || "Something went wrong. Please try again.");
+      const errorMsg = err.message || "Something went wrong. Please try again.";
+      setError(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setIsLoading(false);
     }
@@ -85,9 +82,12 @@ const LoginPage = () => {
       }
 
       login(data.user, data.token);
+      toast.success("Logged in with Google!");
       navigate("/dashboard");
     } catch (err) {
-      setError(err.message || "Google sign-in failed");
+      const errorMsg = err.message || "Google sign-in failed";
+      setError(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setIsLoading(false);
     }

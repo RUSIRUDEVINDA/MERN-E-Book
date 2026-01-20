@@ -5,8 +5,11 @@ import { Edit, Trash2 } from "lucide-react";
 const BookCard = ({ book, onDelete }) => {
   const navigate = useNavigate();
 
+  // Use Cloudinary URL directly if available, otherwise fallback to local
   const coverImageUrl = book?.coverImage
-    ? `${BASE_URL}/backend/uploads/${book.coverImage}`.replace(/\\/g, "/")
+    ? book.coverImage.startsWith("http")
+      ? book.coverImage
+      : `${BASE_URL}/backend/uploads/${book.coverImage}`.replace(/\\/g, "/")
     : "";
   return (
     <div

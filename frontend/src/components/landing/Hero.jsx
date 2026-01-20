@@ -20,7 +20,13 @@ const Hero = () => {
               </span>
             </div>
 
-            <h1 className="text-5xl sm:text-6xl font-extrabold text-gray-900 leading-tight">
+            <h1
+              className="text-5xl sm:text-6xl font-bold text-gray-900 leading-tight"
+              style={{
+                fontFamily:
+                  "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+              }}
+            >
               Create Stunning
               <span className="block mt-2 bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
                 eBooks in Minutes with AI
@@ -38,8 +44,8 @@ const Hero = () => {
                 to={isAuthenticated ? "/dashboard" : "/login"}
                 className="group inline-flex items-center px-6 py-3 bg-violet-600 hover:bg-violet-700 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-600 text-white text-lg font-semibold rounded-lg shadow-lg transition"
               >
-                <span>Start Creating </span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <span>Start Creating</span>
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
 
               <a
