@@ -7,6 +7,7 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.get("/profiles", protect, getAllProfile);
+router.get("/profile", protect, getProfile);
 router.get("/profile/:id", protect, getProfile);
 router.put("/profile/:id", protect, updateProfile);
 router.post("/google", googleLogin);

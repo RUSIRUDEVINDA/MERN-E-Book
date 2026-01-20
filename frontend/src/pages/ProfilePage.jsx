@@ -28,10 +28,7 @@ const ProfilePage = () => {
           return;
         }
 
-        const parsedUser = JSON.parse(userData);
-        const response = await axiosInstance.get(
-          API_PATHS.AUTH.GET_PROFILE.replace(":id", parsedUser.id),
-        );
+        const response = await axiosInstance.get(API_PATHS.AUTH.GET_PROFILE);
 
         setUser(response.data);
         setFormData({
