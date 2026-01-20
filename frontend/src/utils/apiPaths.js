@@ -17,7 +17,7 @@ export const API_PATHS = {
     DELETE: `${API_BASE_URL}/books/:id`,
   },
   AI: {
-    GENERATE: `${API_BASE_URL}/ai/generate-book-outline`,
+    GENERATE_OUTLINE: `${API_BASE_URL}/ai/generate-book-outline`,
     GENERATE_CONTENT: `${API_BASE_URL}/ai/generate-book-content`,
   },
 };
