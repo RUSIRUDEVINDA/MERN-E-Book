@@ -106,7 +106,7 @@ const EditorPage = () => {
     setIsSaving(true);
     try {
       await axiosInstance.put(
-        `${API_PATHS.BOOKS.UPDATE.replace}/${bookId}`,
+        API_PATHS.BOOKS.UPDATE.replace(":id", bookId),
         bookToSave,
       );
       if (showToast) {
@@ -129,7 +129,7 @@ const EditorPage = () => {
 
     try {
       const response = await axiosInstance.put(
-        `${API_PATHS.BOOKS.UPLOAD_COVER}/${bookId}`,
+        API_PATHS.BOOKS.UPLOAD_COVER.replace(":id", bookId),
         formData,
         {
           headers: {
@@ -137,7 +137,10 @@ const EditorPage = () => {
           },
         },
       );
-      setBook(response.data);
+      setBook((prev) => ({
+        ...prev,
+        coverImage: response.data.coverImage,
+      }));
       toast.success("Cover image uploaded successfully!");
     } catch (error) {
       toast.error("Failed to upload cover image.");
@@ -180,7 +183,7 @@ const EditorPage = () => {
     toast.loading("Generating pdf...");
     try {
       const response = await axiosInstance.get(
-        `${API_PATHS.BOOKS.EXPORT_PDF}/${bookId}/pdf`,
+        API_PATHS.EXPORT.EXPORT_PDF.replace(":id", bookId),
         { responseType: "blob" },
       );
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -203,7 +206,7 @@ const EditorPage = () => {
     toast.loading("Generating document...");
     try {
       const response = await axiosInstance.get(
-        `${API_PATHS.BOOKS.EXPORT_DOCX}/${bookId}/docx`,
+        API_PATHS.EXPORT.EXPORT_DOCX.replace(":id", bookId),
         { responseType: "blob" },
       );
       const url = window.URL.createObjectURL(new Blob([response.data]));
