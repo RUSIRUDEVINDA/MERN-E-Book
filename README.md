@@ -9,6 +9,7 @@
 [![Cloudinary](https://img.shields.io/badge/Cloud-Cloudinary-3448C5.svg?style=for-the-badge&logo=cloudinary&logoColor=white)](https://cloudinary.com)
 [![AI Powered](https://img.shields.io/badge/AI-Mistral%20%26%20HuggingFace-792ee5.svg?style=for-the-badge&logo=huggingface&logoColor=white)](https://huggingface.co)
 [![JWT](https://img.shields.io/badge/Auth-JWT-000000.svg?style=for-the-badge&logo=jsonwebtokens&logoColor=white)](https://jwt.io)
+[![Google Auth](https://img.shields.io/badge/Auth-Google-4285F4.svg?style=for-the-badge&logo=google&logoColor=white)](https://developers.google.com/identity)
 
 </div>
 
