@@ -5,6 +5,7 @@ export const API_PATHS = {
   AUTH: {
     REGISTER: `${API_BASE_URL}/auth/register`,
     LOGIN: `${API_BASE_URL}/auth/login`,
+    GOOGLE_LOGIN: `${API_BASE_URL}/auth/google`,
     GET_PROFILE: `${API_BASE_URL}/auth/profile/:id`,
     UPDATE_PROFILE: `${API_BASE_URL}/auth/profile/:id`,
     GET_ALL_PROFILES: `${API_BASE_URL}/auth/profiles`,

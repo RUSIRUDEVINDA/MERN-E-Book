@@ -53,7 +53,7 @@ const LoginPage = () => {
       setIsLoading(true);
 
       const response = await axiosInstance.post(
-        `${API_PATHS.AUTH.LOGIN.replace("/login", "/google")}`,
+        API_PATHS.AUTH.GOOGLE_LOGIN,
         {
           credential: credentialResponse.credential,
         },
