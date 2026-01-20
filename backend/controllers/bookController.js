@@ -110,15 +110,21 @@ const updateBookCover = async (req, res) => {
         }
 
         if (!req.file) {
+            console.log("No file received");
             return res.status(400).json({ message: "No file uploaded" });
         }
 
-        book.coverImage = req.file.filename;
+        console.log("File uploaded:", req.file);
+        
+        // Store the Cloudinary URL (multer-storage-cloudinary uses 'path')
+        book.coverImage = req.file.path;
         await book.save();
 
+        console.log("Book cover updated:", book.coverImage);
         res.status(200).json({ message: "Cover image updated successfully", coverImage: book.coverImage });
     } catch (error) {
-        res.status(500).json({ message: "Server Error" });
+        console.error("Error updating book cover:", error);
+        res.status(500).json({ message: "Server Error", error: error.message });
     }
 };
 

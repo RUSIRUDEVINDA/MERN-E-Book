@@ -1,20 +1,12 @@
-import { GoogleGenAI } from "@google/genai";
-
-// Lazy initialization to ensure env vars are loaded
-let ai = null;
-const getAI = () => {
-    if (!ai) {
-        ai = new GoogleGenAI({ apiKey: process.env.Gemini_API_Key });
-    }
-    return ai;
-};
+// Using Mistral AI API
+const MISTRAL_API_KEY = process.env.HUGGINGFACE_API_KEY; // This is actually Mistral key
+const MISTRAL_API_URL = "https://api.mistral.ai/v1/chat/completions";
 
 //@desc generate a book outline
 //@route POST /api/ai/book-outline
 //@access private
 export const generateBookOutline = async (req, res) => {
     try {
-        const genAI = getAI();
         const { topic, style, numChapters, description } = req.body;
 
         if (!topic || !style || !numChapters || !description) {
@@ -22,71 +14,51 @@ export const generateBookOutline = async (req, res) => {
         }
 
         try {
-            const prompt = `You are an expert book planner specializing in ${style} content. Create a structured outline for a book with the following specifications:
-
-        Book Topic: "${topic}"
-        Book Description: "${description}"
-        Writing Style: ${style}
-        Number of Chapters: ${numChapters}
-
-        Generate exactly ${numChapters} chapters for this book. For each chapter, provide a MEANINGFUL title (not just "Chapter X: Topic - Part X") and a brief description. The titles should be specific, descriptive, and cover different aspects of the topic.
-
-        IMPORTANT: Return ONLY a valid JSON array with this exact structure, with no additional text before or after:
-        [
-          {"title": "Chapter 1: Meaningful Chapter Title", "description": "Brief description of what this chapter covers"},
-          {"title": "Chapter 2: Different Meaningful Chapter Title", "description": "Brief description of what this chapter covers"},
-          ...
-        ]
-
-        Make sure:
-        - Each chapter title is unique and describes the specific content
-        - The chapters are in logical order
-        - They cover all important aspects of the topic in a ${style.toLowerCase()} style
-        - Do NOT use generic titles like "Part 1", "Part 2", etc.`;
-
-            const response = await genAI.models.generateContent({
-                model: "gemini-2.0-flash-exp",
-                contents: prompt,
+            const response = await fetch(MISTRAL_API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${MISTRAL_API_KEY}`,
+                },
+                body: JSON.stringify({
+                    model: "mistral-small-latest",
+                    messages: [{
+                        role: "user",
+                        content: `Create a JSON book outline with ${numChapters} chapters for "${topic}". Style: ${style}.
+Return ONLY this JSON:
+[{"title":"Chapter 1","description":"desc"},{"title":"Chapter 2","description":"desc"}]`
+                    }],
+                    temperature: 0.7,
+                    max_tokens: 500
+                }),
             });
 
-            let text = "";
-            
-            // Handle different response formats from Gemini API
-            if (response.text) {
-                text = response.text;
-            } else if (response.candidates && response.candidates[0]?.content?.parts[0]?.text) {
-                text = response.candidates[0].content.parts[0].text;
-            } else {
-                console.error("Unexpected response format:", JSON.stringify(response));
-                throw new Error("Unexpected API response format");
+            const result = await response.json();
+
+            if (result.error) {
+                throw new Error(result.error.message || JSON.stringify(result.error));
             }
 
-            //find and extract json array from the response text
-            const startIndex = text.indexOf("[");
-            const endIndex = text.lastIndexOf("]");
+            let text = result.choices[0]?.message?.content || "";
+            const startIdx = text.indexOf("[");
+            const endIdx = text.lastIndexOf("]");
 
-            if (startIndex === -1 || endIndex === -1) {
-                console.error("No JSON array found in response:", text);
-                throw new Error("No JSON array found in response");
+            if (startIdx !== -1 && endIdx !== -1) {
+                const outline = JSON.parse(text.substring(startIdx, endIdx + 1));
+                return res.status(200).json({ outline });
             }
 
-            const jsonArrayString = text.substring(startIndex, endIndex + 1);
-            //validate if the response is a valid json
-            const outline = JSON.parse(jsonArrayString);
-            return res.status(200).json({ outline });
+            throw new Error("Invalid response format");
 
         } catch (apiError) {
-            console.error("Gemini API Error:", apiError.message);
-            
-            // Fallback: Generate sample outline if API fails
-            console.log("Using fallback outline generation");
+            console.log("Mistral API error:", apiError.message);
             const sampleOutline = generateSampleOutline(topic, numChapters, style);
             return res.status(200).json({ outline: sampleOutline });
         }
 
     } catch (error) {
-        console.error("Error generating book outline:", error.message || error);
-        res.status(500).json({ error: "Failed to generate book outline", details: error.message });
+        console.error("Error:", error.message);
+        res.status(500).json({ error: "Failed to generate outline" });
     }
 }
 
@@ -160,66 +132,182 @@ export const generateBookContent = async (req, res) => {
         const {chapterTitle, chapterDescription, style} = req.body;
 
         if (!chapterTitle || !style) {
-            return res.status(400).json({ error: "Chapter title and style are required" });
+            return res.status(400).json({ error: "Chapter title and style required" });
         }
 
         try {
-            const genAI = getAI();
-
-            const prompt = `You are an expert writer specializing in ${style} content. Write a complete chapter for a book with the following specifications:
-
-        Chapter Title: "${chapterTitle}"
-        ${chapterDescription ? `Chapter Description: ${chapterDescription}` : ''}
-        Writing Style: ${style}
-        Target Length: Comprehensive and detailed (aim for 1500-2500 words)
-
-        Requirements:
-        1. Write in a ${style.toLowerCase()} tone throughout the chapter
-        2. Structure the content with clear sections and smooth transitions
-        3. Include relevant examples, explanations, or anecdotes as appropriate for the style
-        4. Ensure the content flows logically from introduction to conclusion
-        5. Make the content engaging and valuable to readers
-        ${chapterDescription ? '6. Cover all points mentioned in the chapter description' : ''}
-
-        Format Guidelines:
-        - Start with a compelling opening paragraph
-        - Use clear paragraph breaks for readability
-        - Include subheadings if appropriate for the content length
-        - End with a strong conclusion or transition to the next chapter
-        - Write in plain text without markdown formatting
-
-        Begin writing the chapter content now:`;
-
-            const response = await genAI.models.generateContent({
-                model: "gemini-2.0-flash-exp",
-                contents: prompt,
+            const response = await fetch(MISTRAL_API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${MISTRAL_API_KEY}`,
+                },
+                body: JSON.stringify({
+                    model: "mistral-small-latest",
+                    messages: [{
+                        role: "user",
+                        content: `Write a book chapter titled "${chapterTitle}" in ${style} style.
+${chapterDescription ? `Focus: ${chapterDescription}` : ''}
+Write detailed content with introduction, main sections, and conclusion.`
+                    }],
+                    temperature: 0.7,
+                    max_tokens: 1000
+                }),
             });
 
-            let text = "";
-            
-            // Handle different response formats from Gemini API
-            if (response.text) {
-                text = response.text;
-            } else if (response.candidates && response.candidates[0]?.content?.parts[0]?.text) {
-                text = response.candidates[0].content.parts[0].text;
-            } else {
-                console.error("Unexpected response format:", JSON.stringify(response));
-                throw new Error("Unexpected API response format");
+            const result = await response.json();
+
+            if (result.error) {
+                throw new Error(result.error.message || JSON.stringify(result.error));
             }
 
-            return res.status(200).json({ content: text });
+            let text = result.choices[0]?.message?.content || "";
+            if (text) {
+                return res.status(200).json({ content: text });
+            }
+
+            throw new Error("Empty response");
 
         } catch (apiError) {
-            console.error("Gemini API Error:", apiError.message);
-            
-            // Fallback: Generate sample chapter content if API fails
-            console.log("Using fallback chapter content generation");
+            console.log("Mistral API error:", apiError.message);
             const sampleContent = generateSampleChapterContent(chapterTitle, chapterDescription, style);
             return res.status(200).json({ content: sampleContent });
         }
 
     } catch (error) {
-        console.error("Error generating chapter content:", error.message || error)
-        res.status(500).json({ error: "Failed to generate chapter content" });
+        console.error("Error:", error.message);
+        res.status(500).json({ error: "Failed to generate content" });
     }
 }
+
+// Hugging Face API Functions
+// @desc Generate a summary using Hugging Face
+// @route POST /api/ai/summarize
+// @access private
+export const summarizeText = async (req, res) => {
+    try {
+        const { text, maxLength = 150, minLength = 50 } = req.body;
+
+        if (!text || text.trim().length === 0) {
+            return res.status(400).json({ error: "Text is required" });
+        }
+
+        if (!process.env.HUGGINGFACE_API_KEY) {
+            return res.status(500).json({ error: "Hugging Face API key not configured" });
+        }
+
+        const response = await fetch(
+            "https://api-inference.huggingface.co/models/facebook/bart-large-cnn",
+            {
+                headers: { Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}` },
+                method: "POST",
+                body: JSON.stringify({
+                    inputs: text,
+                    parameters: {
+                        max_length: maxLength,
+                        min_length: minLength,
+                    },
+                }),
+            }
+        );
+
+        const result = await response.json();
+        
+        if (!response.ok) {
+            console.error("Hugging Face error:", result);
+            return res.status(500).json({ error: result.error || "Failed to summarize text" });
+        }
+
+        res.status(200).json({
+            summary: result[0]?.summary_text || result[0]?.generated_text || "",
+        });
+    } catch (error) {
+        console.error("Summarization error:", error);
+        res.status(500).json({ error: "Failed to summarize text" });
+    }
+};
+
+// @desc Generate keywords using Hugging Face
+// @route POST /api/ai/keywords
+// @access private
+export const extractKeywords = async (req, res) => {
+    try {
+        const { text } = req.body;
+
+        if (!text || text.trim().length === 0) {
+            return res.status(400).json({ error: "Text is required" });
+        }
+
+        if (!process.env.HUGGINGFACE_API_KEY) {
+            return res.status(500).json({ error: "Hugging Face API key not configured" });
+        }
+
+        const response = await fetch(
+            "https://api-inference.huggingface.co/models/yanekyuk/bert-keyword-extractor",
+            {
+                headers: { Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}` },
+                method: "POST",
+                body: JSON.stringify({ inputs: text }),
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            console.error("Hugging Face error:", result);
+            return res.status(500).json({ error: result.error || "Failed to extract keywords" });
+        }
+
+        res.status(200).json({
+            keywords: result,
+        });
+    } catch (error) {
+        console.error("Keyword extraction error:", error);
+        res.status(500).json({ error: "Failed to extract keywords" });
+    }
+};
+
+// @desc Classify text using Hugging Face
+// @route POST /api/ai/classify
+// @access private
+export const classifyText = async (req, res) => {
+    try {
+        const { text } = req.body;
+
+        if (!text || text.trim().length === 0) {
+            return res.status(400).json({ error: "Text is required" });
+        }
+
+        if (!process.env.HUGGINGFACE_API_KEY) {
+            return res.status(500).json({ error: "Hugging Face API key not configured" });
+        }
+
+        const response = await fetch(
+            "https://api-inference.huggingface.co/models/zero-shot-classification-model",
+            {
+                headers: { Authorization: `Bearer ${process.env.HUGGINGFACE_API_KEY}` },
+                method: "POST",
+                body: JSON.stringify({
+                    inputs: text,
+                    parameters: {
+                        candidate_labels: ["fiction", "non-fiction", "educational", "self-help", "biography"],
+                    },
+                }),
+            }
+        );
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            console.error("Hugging Face error:", result);
+            return res.status(500).json({ error: result.error || "Failed to classify text" });
+        }
+
+        res.status(200).json({
+            classification: result,
+        });
+    } catch (error) {
+        console.error("Text classification error:", error);
+        res.status(500).json({ error: "Failed to classify text" });
+    }
+};
