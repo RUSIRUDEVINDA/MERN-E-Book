@@ -47,14 +47,6 @@ const Hero = () => {
                 <span>Start Creating</span>
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
-
-              <a
-                href="#demo"
-                className="inline-flex items-center px-4 py-3 bg-white hover:bg-gray-100 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-600 text-gray-700 text-lg font-medium rounded-lg shadow-sm border border-gray-200 transition"
-              >
-                <span>See it in Action</span>
-                <span className="text-violet-600"></span>
-              </a>
             </div>
 
             <div className="flex items-center gap-8 pt-4">
