@@ -126,4 +126,4 @@ Follow these steps to set up the project locally.
 
 ### 📬 Contact
 
-Project Link: [https://github.com/your-username/MERN-E-Book](https://github.com/your-username/MERN-E-Book)
+Project Link: [https://github.com/RUSIRUDEVINDA/MERN-E-Book](https://github.com/RUSIRUDEVINDA/MERN-E-Book)
