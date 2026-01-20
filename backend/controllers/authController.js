@@ -36,6 +36,8 @@ const register = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
       },
       token: generateToken(user._id, res),
     });
@@ -117,7 +119,13 @@ const getProfile = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    res.json(user);
+    res.json({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    });
 
   } catch (error) {
     console.error("Get profile error:", error.message);
