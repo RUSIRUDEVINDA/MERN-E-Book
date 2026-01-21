@@ -128,7 +128,6 @@ Follow these steps to set up the project locally.
 ### 📬 Contact
 
 
-Project Link: [https://github.com/RUSIRUDEVINDA/MERN-E-Book](https://github.com/RUSIRUDEVINDA/MERN-E-Book)
-
-Live Demo: [https://mern-e-book-frontend-4onv.onrender.com/](https://mern-e-book-frontend-4onv.onrender.com/)
+* Project Link: [https://github.com/RUSIRUDEVINDA/MERN-E-Book](https://github.com/RUSIRUDEVINDA/MERN-E-Book)
+* Live Demo: [https://mern-e-book-frontend-4onv.onrender.com/](https://mern-e-book-frontend-4onv.onrender.com/)
 
