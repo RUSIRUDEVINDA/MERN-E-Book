@@ -45,7 +45,7 @@ app.use('/api/export', exportRoutes);
 app.use(express.static(path.join(__dirname, "frontend/dist")));
 
 // SPA fallback (IMPORTANT)
-app.get("*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
 });
 
