@@ -41,6 +41,14 @@ app.use('/api/ai', aiRoutes);
 // export routes here
 app.use('/api/export', exportRoutes);
 
+// Serve frontend build
+app.use(express.static(path.join(__dirname, "frontend/dist")));
+
+// SPA fallback (IMPORTANT)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend/dist/index.html"));
+});
+
 //start server
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
